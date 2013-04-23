@@ -38,7 +38,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @DiscriminatorValue(value = "Material")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Material.findAll", query = "SELECT m FROM Material m")})
+    @NamedQuery(name = "Material.findAll", query = "SELECT m FROM Material m"),
+    @NamedQuery(name = "Material.findById", query = "SELECT m FROM Material m WHERE m.id = :id"),
+    @NamedQuery(name = "Material.findByTitle", query = "SELECT m FROM Material m WHERE m.title = :title"),
+    @NamedQuery(name = "Material.findByFile", query = "SELECT m FROM Material m WHERE m.file = :file"),
+    @NamedQuery(name = "Material.findByFileSize", query = "SELECT m FROM Material m WHERE m.fileSize = :fileSize"),
+    @NamedQuery(name = "Material.findByType", query = "SELECT m FROM Material m WHERE m.type = :type")})
 public abstract class Material implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,6 +59,9 @@ public abstract class Material implements Serializable {
     private String file;
     @Column(name = "FILE_SIZE")
     private Integer fileSize;
+    @Size(max = 10)
+    @Column(name = "TYPE")
+    private String type;
     @JoinTable(name = "HAS_VOICE", joinColumns = {
     @JoinColumn(name = "ID", referencedColumnName = "ID")}, inverseJoinColumns = {
     @JoinColumn(name = "CODE", referencedColumnName = "CODE")})
@@ -102,6 +110,13 @@ public abstract class Material implements Serializable {
         this.fileSize = fileSize;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
     public Collection<Voice> getVoices() {
         return voices;
     }

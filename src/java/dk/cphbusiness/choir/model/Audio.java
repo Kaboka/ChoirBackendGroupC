@@ -26,7 +26,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "AUDIO")
 @DiscriminatorValue(value = "Audio")
 @NamedQueries({
-    @NamedQuery(name = "Audio.findAll", query = "SELECT a FROM Audio a")})
+    @NamedQuery(name = "Audio.findAll", query = "SELECT a FROM Audio a"),
+    @NamedQuery(name = "Audio.findById", query = "SELECT a FROM Audio a WHERE a.id = :id"),
+    @NamedQuery(name = "Audio.findByPlayingTime", query = "SELECT a FROM Audio a WHERE a.playingTime = :playingTime")})
 public class Audio extends Material {
     private static final long serialVersionUID = 1L;
     

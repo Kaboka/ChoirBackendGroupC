@@ -83,9 +83,7 @@ public class ChoirManagerBean implements ChoirManager{
         Collection<Voice> list = em.createNamedQuery("Voice.findAll").getResultList();
         for(Voice voice : list)
         {
-            System.out.println(voice.getName());
             voices.add(ChoirAssembler.createVoiceSummary(voice));
-            
         }
         return voices;
     }
@@ -146,7 +144,7 @@ public class ChoirManagerBean implements ChoirManager{
     public MemberDetail findMember(long id) throws NoSuchMemberException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ChoirBackendPU");
         EntityManager em = emf.createEntityManager();
-        MemberDetail member = ChoirAssembler.createMemberDetail(em.find(ChoirMember.class, (int)id));
+        MemberDetail member = ChoirAssembler.createMemberDetail(em.find(ChoirMember.class, id));
         return member;  
     }
 
@@ -223,7 +221,7 @@ public class ChoirManagerBean implements ChoirManager{
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ChoirBackendPU");
         EntityManager em = emf.createEntityManager();
         Collection<MaterialSummary> materials = new ArrayList<MaterialSummary>();
-        Music music = em.find(Music.class,(int)musicId);
+        Music music = em.find(Music.class,musicId);
         for(Material material : music.getMaterials()){
             materials.add(ChoirAssembler.createMaterialSummary(material));
         }
@@ -235,7 +233,7 @@ public class ChoirManagerBean implements ChoirManager{
     public MaterialDetail findMaterial(long id) throws NoSuchMaterialException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ChoirBackendPU");
         EntityManager em = emf.createEntityManager();
-        MaterialDetail material = ChoirAssembler.createMaterialDetail(em.find(Material.class, (int)id));
+        MaterialDetail material = ChoirAssembler.createMaterialDetail(em.find(Material.class, id));
         
         return material;
     }
@@ -287,7 +285,7 @@ public class ChoirManagerBean implements ChoirManager{
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ChoirBackendPU");
         EntityManager em = emf.createEntityManager();
         Collection<MusicSummary> musicList = new ArrayList<MusicSummary>();
-        Artist composer = em.find(Artist.class, (int)composerId);
+        Artist composer = em.find(Artist.class,composerId);
         for(Music music : composer.getMusic()){
             musicList.add(ChoirAssembler.createMusicSummary(music));
         }
@@ -299,7 +297,7 @@ public class ChoirManagerBean implements ChoirManager{
     public MusicDetail findMusic(long id) throws NoSuchMusicException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ChoirBackendPU");
         EntityManager em = emf.createEntityManager();
-        MusicDetail music = ChoirAssembler.createMusicDetail(em.find(Music.class, (int)id));
+        MusicDetail music = ChoirAssembler.createMusicDetail(em.find(Music.class, id));
         return music;
     }
 
@@ -384,7 +382,7 @@ public class ChoirManagerBean implements ChoirManager{
     public ArtistDetail findArtist(long id) throws NoSuchArtistException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ChoirBackendPU");
         EntityManager em = emf.createEntityManager();
-        ArtistDetail artist = ChoirAssembler.createArtistDetail(em.find(Artist.class, (int)id));
+        ArtistDetail artist = ChoirAssembler.createArtistDetail(em.find(Artist.class, id));
         
         return artist;
     }
@@ -392,7 +390,7 @@ public class ChoirManagerBean implements ChoirManager{
     private boolean checkAdmin(MemberAuthentication user){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ChoirBackendPU");
         EntityManager em = emf.createEntityManager();
-        ChoirMember u = em.find(ChoirMember.class, (int)user.getId());
+        ChoirMember u = em.find(ChoirMember.class, user.getId());
         boolean isAdmin = false;
         for(ChoirRole r : u.getChoirRoles()){
             if(r.getCode().equals("ADM")){

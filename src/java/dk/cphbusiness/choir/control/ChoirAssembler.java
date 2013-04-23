@@ -55,7 +55,7 @@ public class ChoirAssembler {
     public static MaterialDetail createMaterialDetail(Material material){
         Collection<VoiceSummary> voices = new ArrayList<VoiceSummary>();
         Music music = material.getMusic();
-        MusicSummary musicSummary = new MusicSummary((long)music.getId(), music.getTitle(), music.getComposer().getFirstName(), music.getOpus() + "", "");
+        MusicSummary musicSummary = new MusicSummary((long)music.getId(), music.getTitle(), music.getComposer().getPerson().getFirstName(), music.getOpus() + "", "");
         for(Voice voice : material.getVoices()){
             voices.add(new VoiceSummary(voice.getCode(), voice.getName()));
         }
@@ -70,11 +70,11 @@ public class ChoirAssembler {
         
         ArtistSummary composer = new ArtistSummary(
                 artist.getId(),
-                artist.getFirstName()+" "+artist.getLastName(),
+                artist.getPerson().getFirstName()+" "+artist.getPerson().getLastName(),
                 artist.getWikiUrl());
         
         for(Material material : music.getMaterials()){
-            materials.add(new MaterialSummary(material.getId(), material.getTitle(), "", "material.getMusic().getDescription()", ""));
+            materials.add(new MaterialSummary(material.getId(), material.getTitle(), "", "material.getMusic().getDescription()", material.getType()));
         }
         
         MusicDetail musicDetail = new MusicDetail(
@@ -108,24 +108,24 @@ public class ChoirAssembler {
     public static MusicSummary createMusicSummary(Music music){
         return new MusicSummary(music.getId(),
                 music.getTitle(),
-                music.getComposer().getFirstName()+" "+music.getComposer().getLastName(),
+                music.getComposer().getPerson().getFirstName()+" "+music.getComposer().getPerson().getLastName(),
                 music.getOpus()+"", "");
     }
     
     public static ArtistSummary createArtistSummary(Artist artist){
-        return new ArtistSummary(artist.getId(), artist.getFirstName()+" "+artist.getLastName(), 
+        return new ArtistSummary(artist.getId(), artist.getPerson().getFirstName()+" "+artist.getPerson().getLastName(), 
                 artist.getWikiUrl());
     }
     
     public static ArtistDetail createArtistDetail(Artist artist){
-        return new ArtistDetail(artist.getId(), artist.getFirstName(), artist.getLastName(), 
-                artist.getWikiUrl(), artist.getCountry(), artist.getDateOfBirth(), artist.getDateOfDeath());
+        return new ArtistDetail(artist.getId(), artist.getPerson().getFirstName(), artist.getPerson().getLastName(), 
+                artist.getWikiUrl(), artist.getCountry(), artist.getPerson().getDateOfBirth(), artist.getDateOfDeath());
     }
     
     
     //CONTAINS HARDCODED DUMMY VALUES
     public static MaterialSummary createMaterialSummary(Material material){
-        return new MaterialSummary(material.getId(), material.getTitle(), "", "", "");
+        return new MaterialSummary(material.getId(), material.getTitle(), "", "", material.getType());
     }
     
     
