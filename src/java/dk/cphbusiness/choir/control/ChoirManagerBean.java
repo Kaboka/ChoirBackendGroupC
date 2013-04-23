@@ -160,26 +160,29 @@ public class ChoirManagerBean implements ChoirManager{
         if(checkAdmin(user)){
             em.getTransaction().begin();
             ChoirMember choirMember = new ChoirMember();
+            choirMember.setId((int)member.getId());
             choirMember.setFirstName(member.getFirstName());
             choirMember.setLastName(member.getLastName());
+            choirMember.setDateOfBirth(member.getDateOfBirth());
+            Collection<ChoirRole> roles = new ArrayList<ChoirRole>();
+            for(String roleCode : member.getRoleCodes()){
+                roles.add(em.find(ChoirRole.class, roleCode));
+            }
+            choirMember.setChoirRoles(roles);
+            choirMember.setVoice(em.find(Voice.class, member.getVoiceCode()));
+            choirMember.setStreet(member.getStreet());
+            choirMember.setZipcode(member.getZipCode());
             choirMember.setCity(member.getCity());
             choirMember.setEmail(member.getEmail());
-            choirMember.setDateOfBirth(member.getDateOfBirth());
             choirMember.setPhone(member.getPhone());
-            choirMember.setId((int)member.getId());
             
-            //Adds roles for the Choir Member
-            for(RoleSummary role : member.getRoles()){
-                ChoirRole cRole = new ChoirRole(role.getCode());
-                cRole.setName(role.getName());
-                choirMember.getChoirRoles().add(cRole);
-            }
             
             if(choirMember.getId() == 0){
                 em.persist(choirMember);            //Creates new member if it doesn't already exist in DB
             }   
             else{
-                em.refresh(choirMember);            //Updates if member already exists in DB
+                choirMember.setPassword(em.find(ChoirMember.class, (int)member.getId()).getPassword());
+                em.merge(choirMember);            //Updates if member already exists in DB
             }         
                  
             em.getTransaction().commit();
