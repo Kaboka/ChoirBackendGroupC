@@ -26,9 +26,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "SHEET")
 @DiscriminatorValue(value = "Sheet")
 @NamedQueries({
-    @NamedQuery(name = "Sheet.findAll", query = "SELECT s FROM Sheet s"),
-    @NamedQuery(name = "Sheet.findById", query = "SELECT s FROM Sheet s WHERE s.id = :id"),
-    @NamedQuery(name = "Sheet.findByPageCount", query = "SELECT s FROM Sheet s WHERE s.pageCount = :pageCount")})
+    @NamedQuery(name = "Sheet.findAll", query = "SELECT s FROM Sheet s")})
 public class Sheet extends Material {
     private static final long serialVersionUID = 1L;
    
