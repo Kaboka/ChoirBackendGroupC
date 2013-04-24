@@ -18,19 +18,19 @@ import dk.cphbusiness.choir.contract.eto.NoSuchMaterialException;
 import dk.cphbusiness.choir.contract.eto.NoSuchMemberException;
 import dk.cphbusiness.choir.contract.eto.NoSuchMusicException;
 import dk.cphbusiness.choir.model.Artist;
+import dk.cphbusiness.choir.model.Audio;
 import dk.cphbusiness.choir.model.ChoirMember;
 import dk.cphbusiness.choir.model.ChoirRole;
 import dk.cphbusiness.choir.model.Material;
 import dk.cphbusiness.choir.model.Music;
+import dk.cphbusiness.choir.model.Sheet;
 import dk.cphbusiness.choir.model.Voice;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Stateless;
-import javax.management.relation.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 
 
 /**
@@ -199,13 +199,22 @@ public class ChoirManagerBean implements ChoirManager{
     public Collection<MaterialSummary> listMaterials() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ChoirBackendPU");
         EntityManager em = emf.createEntityManager();
-        Collection<MaterialSummary> materials = new ArrayList<MaterialSummary>();
-        Collection<Material> list = em.createNamedQuery("Material.findAll").getResultList();
-        for(Material material : list)
-        {
-            materials.add(ChoirAssembler.createMaterialSummary(material));
+        
+        Collection<MaterialSummary> materialSummaries = new ArrayList<MaterialSummary>();
+//        ArrayList<Material> materials = new ArrayList<Material>(em.createNamedQuery("Material.findAll").getResultList());
+//        System.out.println("Materials: " + materials.toString());
+        ArrayList<Sheet> sheets = new ArrayList<Sheet>(em.createNamedQuery("Sheet.findAll").getResultList());
+        System.out.println("Sheets: " + sheets.toString());
+        ArrayList<Audio> audios = new ArrayList<Audio>(em.createNamedQuery("Audio.findAll").getResultList());
+        System.out.println("Audios: " + audios.toString());
+        for(Sheet sheet : sheets){
+            materialSummaries.add(ChoirAssembler.createMaterialSummary(sheet));
         }
-        return materials;
+        for(Audio audio : audios){
+            materialSummaries.add(ChoirAssembler.createMaterialSummary(audio));
+        }
+        System.out.println("Material summaries: " + materialSummaries.toString());
+        return materialSummaries;
     }
 
     @Override
