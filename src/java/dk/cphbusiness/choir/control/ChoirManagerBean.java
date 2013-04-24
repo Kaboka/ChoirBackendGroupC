@@ -160,7 +160,9 @@ public class ChoirManagerBean implements ChoirManager{
         if(checkAdmin(user)){
             em.getTransaction().begin();
             ChoirMember choirMember = new ChoirMember();
-            choirMember.setId((int)member.getId());
+            if(member.getId()!= 0){
+               choirMember.setId((int)member.getId());
+            }
             choirMember.setFirstName(member.getFirstName());
             choirMember.setLastName(member.getLastName());
             choirMember.setDateOfBirth(member.getDateOfBirth());
@@ -177,7 +179,7 @@ public class ChoirManagerBean implements ChoirManager{
             choirMember.setPhone(member.getPhone());
             
             
-            if(choirMember.getId() == 0){
+            if(choirMember.getId() == null){
                 em.persist(choirMember);            //Creates new member if it doesn't already exist in DB
             }   
             else{
