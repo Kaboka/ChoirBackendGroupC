@@ -32,7 +32,8 @@ import javax.validation.constraints.Size;
 @Table(name = "ARTIST")
 @DiscriminatorValue(value = "Artist")
 @NamedQueries({
-    @NamedQuery(name = "Artist.findAll", query = "SELECT a FROM Artist a")})
+    @NamedQuery(name = "Artist.findAll", query = "SELECT a FROM Artist a"),
+    @NamedQuery(name = "Artist.findPattern", query = "SELECT a FROM Artist a WHERE Concat(a.firstName,' ',a.lastName) LIKE :pattern")})
 public class Artist extends Person{
     private static final long serialVersionUID = 1L;
     @Column(name = "DATE_OF_DEATH")

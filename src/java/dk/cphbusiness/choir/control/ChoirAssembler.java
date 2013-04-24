@@ -59,7 +59,7 @@ public class ChoirAssembler {
         for(Voice voice : material.getVoices()){
             voices.add(new VoiceSummary(voice.getCode(), voice.getName()));
         }
-
+        System.out.println(material.getTitle());
         return new MaterialDetail((long)material.getId(), material.getTitle(), voices, musicSummary, material.getFile(), material.getFileSize(), 0, 0);
     }
     
@@ -125,6 +125,7 @@ public class ChoirAssembler {
     
     //CONTAINS HARDCODED DUMMY VALUES
     public static MaterialSummary createMaterialSummary(Material material){
+        
         return new MaterialSummary(material.getId(), material.getTitle(), "", "", "");
     }
     
