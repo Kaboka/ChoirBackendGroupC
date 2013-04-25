@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Material.findAll", query = "SELECT m FROM Material m")})
+    
 public abstract class Material implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

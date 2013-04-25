@@ -12,7 +12,7 @@ drop table PERSON;
 
 drop sequence CHOIR_SEQUENCE restrict;
 
-create sequence CHOIR_SEQUENCE as int minvalue 1;
+create sequence CHOIR_SEQUENCE start with 100 increment by 1;
 
 create table PERSON(
     ID int primary key,
