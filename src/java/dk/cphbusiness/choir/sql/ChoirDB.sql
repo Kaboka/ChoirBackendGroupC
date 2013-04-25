@@ -253,36 +253,36 @@ insert into MATERIAL
 values(16, 'Audio', 'Vodka No. 9', 'VodkaNo9.mp3', 200, 8);
 
 insert into AUDIO
-values(1, 305);
+values(2, 305);
 insert into AUDIO
-values(3, 685);
+values(4, 685);
 insert into AUDIO
-values(5, 784);
+values(6, 784);
 insert into AUDIO
-values(7, 567);
+values(8, 567);
 insert into AUDIO
-values(9, 839);
+values(10, 839);
 insert into AUDIO
-values(11, 637);
+values(12, 637);
 insert into AUDIO
-values(13, 345);
+values(14, 345);
 insert into AUDIO
-values(15, 657);
+values(16, 657);
 
 insert into SHEET
-values(2, 12);
+values(1, 12);
 insert into SHEET
-values(4, 10);
+values(3, 10);
 insert into SHEET
-values(6, 9);
+values(5, 9);
 insert into SHEET
-values(8, 15);
+values(7, 15);
 insert into SHEET
-values(10, 14);
+values(9, 14);
 insert into SHEET
-values(12, 12);
+values(11, 12);
 insert into SHEET
-values(14, 13);
+values(13, 13);
 insert into SHEET
-values(16, 8);
+values(15, 8);
 
