@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "AUDIO")
-@DiscriminatorValue(value = "Audio")
+//@DiscriminatorValue(value = "Audio")
 @NamedQueries({
     @NamedQuery(name = "Audio.findAll", query = "SELECT a FROM Audio a")})
 public class Audio extends Material {
@@ -32,7 +32,7 @@ public class Audio extends Material {
     
     
     @Column(name = "PLAYING_TIME")
-    private Integer playingTime;
+    private int playingTime;
 
 
     public Audio() {
@@ -42,11 +42,11 @@ public class Audio extends Material {
         super(id);
     }
 
-    public Integer getPlayingTime() {
+    public int getPlayingTime() {
         return playingTime;
     }
 
-    public void setPlayingTime(Integer playingTime) {
+    public void setPlayingTime(int playingTime) {
         this.playingTime = playingTime;
     }
 

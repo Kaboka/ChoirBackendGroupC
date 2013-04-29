@@ -11,10 +11,12 @@ import dk.cphbusiness.choir.contract.dto.MusicSummary;
 import dk.cphbusiness.choir.contract.dto.RoleSummary;
 import dk.cphbusiness.choir.contract.dto.VoiceSummary;
 import dk.cphbusiness.choir.model.Artist;
+import dk.cphbusiness.choir.model.Audio;
 import dk.cphbusiness.choir.model.ChoirMember;
 import dk.cphbusiness.choir.model.ChoirRole;
 import dk.cphbusiness.choir.model.Material;
 import dk.cphbusiness.choir.model.Music;
+import dk.cphbusiness.choir.model.Sheet;
 import dk.cphbusiness.choir.model.Voice;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -59,8 +61,14 @@ public class ChoirAssembler {
         for(Voice voice : material.getVoices()){
             voices.add(new VoiceSummary(voice.getCode(), voice.getName()));
         }
-
-        return new MaterialDetail((long)material.getId(), material.getTitle(), voices, musicSummary, material.getFile(), material.getFileSize(), 0, 0);
+        if(material instanceof Audio)
+        {
+            Audio audio = (Audio) material;
+            return new MaterialDetail((long)material.getId(), material.getTitle(), voices, musicSummary, material.getFile(), material.getFileSize(),audio.getPlayingTime() , 0);
+        }else{
+            Sheet sheet = (Sheet) material;
+            return new MaterialDetail((long)material.getId(), material.getTitle(), voices, musicSummary, material.getFile(), material.getFileSize(),0 , sheet.getPageCount());
+        }
     }
     
     //CONTAINS HARDCODED DUMMY VALUES

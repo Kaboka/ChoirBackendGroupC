@@ -24,14 +24,14 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "SHEET")
-@DiscriminatorValue(value = "Sheet")
+//@DiscriminatorValue(value = "Sheet")
 @NamedQueries({
     @NamedQuery(name = "Sheet.findAll", query = "SELECT s FROM Sheet s")})
 public class Sheet extends Material {
     private static final long serialVersionUID = 1L;
    
     @Column(name = "PAGE_COUNT")
-    private Integer pageCount;
+    private int pageCount;
     
     public Sheet() {
     }
@@ -41,11 +41,11 @@ public class Sheet extends Material {
     }
 
 
-    public Integer getPageCount() {
+    public int getPageCount() {
         return pageCount;
     }
 
-    public void setPageCount(Integer pageCount) {
+    public void setPageCount(int pageCount) {
         this.pageCount = pageCount;
     }
 
