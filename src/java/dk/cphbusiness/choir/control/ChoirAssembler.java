@@ -127,6 +127,8 @@ public class ChoirAssembler {
     public static MaterialSummary createMaterialSummary(Material material){
         
         return new MaterialSummary(material.getId(), material.getTitle(), "", "", "");
+        //System.out.println("Creating summary of: " + material);
+        //return new MaterialSummary(material.getId(), material.getTitle(), "", material.getMusic().getHistory(), "");
     }
     
     

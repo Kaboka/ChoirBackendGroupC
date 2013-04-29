@@ -139,7 +139,7 @@ public class ChoirMember extends Person {
    
     @Override
     public String toString() {
-        return "dk.cphbusiness.choir.model.Member1[ id=" + getId() + " ]";
+        return "dk.cphbusiness.choir.model.ChoirMember[ id=" + getId() + " ]";
     }
     
 }

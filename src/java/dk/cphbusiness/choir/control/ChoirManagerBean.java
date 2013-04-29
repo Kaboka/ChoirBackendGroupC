@@ -18,20 +18,20 @@ import dk.cphbusiness.choir.contract.eto.NoSuchMaterialException;
 import dk.cphbusiness.choir.contract.eto.NoSuchMemberException;
 import dk.cphbusiness.choir.contract.eto.NoSuchMusicException;
 import dk.cphbusiness.choir.model.Artist;
+import dk.cphbusiness.choir.model.Audio;
 import dk.cphbusiness.choir.model.ChoirMember;
 import dk.cphbusiness.choir.model.ChoirRole;
 import dk.cphbusiness.choir.model.Material;
 import dk.cphbusiness.choir.model.Music;
+import dk.cphbusiness.choir.model.Sheet;
 import dk.cphbusiness.choir.model.Voice;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Stateless;
-import javax.management.relation.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NamedQuery;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 
 
 /**
@@ -161,26 +161,31 @@ public class ChoirManagerBean implements ChoirManager{
         if(checkAdmin(user)){
             em.getTransaction().begin();
             ChoirMember choirMember = new ChoirMember();
+            if(member.getId()!= 0){
+               choirMember.setId((int)member.getId());
+            }
             choirMember.setFirstName(member.getFirstName());
             choirMember.setLastName(member.getLastName());
+            choirMember.setDateOfBirth(member.getDateOfBirth());
+            Collection<ChoirRole> roles = new ArrayList<ChoirRole>();
+            for(String roleCode : member.getRoleCodes()){
+                roles.add(em.find(ChoirRole.class, roleCode));
+            }
+            choirMember.setChoirRoles(roles);
+            choirMember.setVoice(em.find(Voice.class, member.getVoiceCode()));
+            choirMember.setStreet(member.getStreet());
+            choirMember.setZipcode(member.getZipCode());
             choirMember.setCity(member.getCity());
             choirMember.setEmail(member.getEmail());
-            choirMember.setDateOfBirth(member.getDateOfBirth());
             choirMember.setPhone(member.getPhone());
-            choirMember.setId((int)member.getId());
             
-            //Adds roles for the Choir Member
-            for(RoleSummary role : member.getRoles()){
-                ChoirRole cRole = new ChoirRole(role.getCode());
-                cRole.setName(role.getName());
-                choirMember.getChoirRoles().add(cRole);
-            }
             
-            if(choirMember.getId() == 0){
+            if(choirMember.getId() == null){
                 em.persist(choirMember);            //Creates new member if it doesn't already exist in DB
             }   
             else{
-                em.refresh(choirMember);            //Updates if member already exists in DB
+                choirMember.setPassword(em.find(ChoirMember.class, (int)member.getId()).getPassword());
+                em.merge(choirMember);            //Updates if member already exists in DB
             }         
                  
             em.getTransaction().commit();
@@ -197,13 +202,22 @@ public class ChoirManagerBean implements ChoirManager{
     public Collection<MaterialSummary> listMaterials() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ChoirBackendPU");
         EntityManager em = emf.createEntityManager();
-        Collection<MaterialSummary> materials = new ArrayList<MaterialSummary>();
-        Collection<Material> list = em.createNamedQuery("Material.findAll").getResultList();
-        for(Material material : list)
-        {
-            materials.add(ChoirAssembler.createMaterialSummary(material));
+        
+        Collection<MaterialSummary> materialSummaries = new ArrayList<MaterialSummary>();
+//        ArrayList<Material> materials = new ArrayList<Material>(em.createNamedQuery("Material.findAll").getResultList());
+//        System.out.println("Materials: " + materials.toString());
+        ArrayList<Sheet> sheets = new ArrayList<Sheet>(em.createNamedQuery("Sheet.findAll").getResultList());
+        System.out.println("Sheets: " + sheets.toString());
+        ArrayList<Audio> audios = new ArrayList<Audio>(em.createNamedQuery("Audio.findAll").getResultList());
+        System.out.println("Audios: " + audios.toString());
+        for(Sheet sheet : sheets){
+            materialSummaries.add(ChoirAssembler.createMaterialSummary(sheet));
         }
-        return materials;
+        for(Audio audio : audios){
+            materialSummaries.add(ChoirAssembler.createMaterialSummary(audio));
+        }
+        System.out.println("Material summaries: " + materialSummaries.toString());
+        return materialSummaries;
     }
 
     @Override
