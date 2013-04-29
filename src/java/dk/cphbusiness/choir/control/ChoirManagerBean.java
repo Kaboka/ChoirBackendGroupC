@@ -32,6 +32,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NamedQuery;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 
 /**
@@ -382,11 +383,11 @@ public class ChoirManagerBean implements ChoirManager{
     }
 
     @Override
-    public Collection<ArtistSummary> listArtistsByPattern(String pattern) {
+    public Collection<ArtistSummary> listArtistsByPattern(String term) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ChoirBackendPU");
         EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Artist.findPattern");
-        query.setParameter("pattern", "%"+pattern+"%");
+        query.setParameter("term", "%"+term+"%");
         Collection<Artist> artists = query.getResultList();
         Collection<ArtistSummary> list = new ArrayList<ArtistSummary>();
         for(Artist a : artists){
