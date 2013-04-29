@@ -32,11 +32,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * kasper
  */
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
 @Table(name = "MATERIAL")
-@DiscriminatorColumn(name="DTYPE", discriminatorType=DiscriminatorType.STRING)
-@DiscriminatorValue(value = "Material")
-@XmlRootElement
+@Inheritance(strategy=InheritanceType.JOINED)
+//@DiscriminatorColumn(name="DTYPE", discriminatorType=DiscriminatorType.STRING)
+//@DiscriminatorValue(value = "Material")
 @NamedQueries({
     @NamedQuery(name = "Material.findAll", query = "SELECT m FROM Material m")})
     
